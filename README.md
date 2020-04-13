@@ -48,15 +48,16 @@ cc "| /home/keinos/auto-reply-sakura/auto-reply.php"
 2. 以下の設定ファイルをコピー＆リネームして編集する。（必須以外の不要な要素は削除可能）
     - `cp ./config/config.json-sample ./config/config.json`
       - 必須要素:
+          - 有効な JSON 形式であること。（`cat ./config.json | jq .` で確認）
           - `weekday_to_reply`: 配列。自動返信させたい曜日のみ指定する。
           - `mail_title_to_reply`: 文字列。
-          - `from->email`
+          - `from->email`: 文字列。
 
 3. 以下の自動返信の本文定型ファイルをコピー＆リネームして編集する。
     - `cp ./template/reply_body.utf8.txt.sample ./template/reply_body.utf8.txt`
       - 必須条件: 1文字以上の UTF-8 テキスト（BOM なし）
 
-3. 自動転送設定したいユーザーのメールボックスのルートに `.mailfilter` ファイルを（なければ）設置し、転送文を追記する。（以下は `test` ユーザーの場合の例）
+4. 自動転送設定したいユーザーのメールボックスのルートに `.mailfilter` ファイルを（なければ）設置し、転送文を追記する。（以下は `test` ユーザーの場合の例）
 
     ```bash
     % # test ユーザーのメールボックスのルートに移動
@@ -85,6 +86,16 @@ cc "| /home/keinos/auto-reply-sakura/auto-reply.php"
     % # .mailfilter のアクセス権を 600 に変更しておく
     % chmod 0600 ./.mailfilter
     ```
+
+### スクリプトの更新
+
+スクリプトのアップデートがあった場合は `git pull` で更新します。
+
+```shellscript
+% cd ~/auto-play
+% git pull origin
+...
+```
 
 ## コラボレーション
 
