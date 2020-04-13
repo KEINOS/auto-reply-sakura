@@ -39,8 +39,10 @@ cc "| /home/keinos/auto-reply-sakura/auto-reply.php"
     ```bash
     % # ルートに移動
     cd ~/
-    % # リポジトリを auto-reply として clone 後、clone 先に移動
-    git clone https://github.com/KEINOS/auto-reply-sakura.git auto-reply && cd $_
+    % # リポジトリを auto-reply として clone
+    git clone https://github.com/KEINOS/auto-reply-sakura.git auto-reply
+    % # clone したリポジトリに移動
+    cd auto-reply
     ```
 
 2. 以下の設定ファイルをコピー＆リネームして編集する。（必須以外の不要な要素は削除可能）
