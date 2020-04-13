@@ -11,6 +11,7 @@ services:
     image: auto_reply_sakura/unit_test:latest
     volumes:
       - ./config/php.ini-sakura-develop:/usr/local/etc/php/php.ini
+      - ./composer.lock-debug:/app/composer.lock-debug
       - ./auto-reply.php:/app/auto-reply.php
       - ./composer.json:/app/composer.json
       - ./src:/app/src
