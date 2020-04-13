@@ -1,0 +1,31 @@
+{
+    "weekday_to_reply": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ],
+    "mail_title_to_reply": "お問い合わせありがとうございます。",
+    "from": {
+        "email": "reply-bot@sample.com"
+    },
+    "cc": [
+        {
+            "email": "foo@sample.com"
+        },
+        {
+            "email": "bar@sample.com"
+        }
+    ],
+    "bcc": [
+        {
+            "email": "hoge@sample.com"
+        },
+        {
+            "email": "fuga@sample.com"
+        }
+    ]
+}

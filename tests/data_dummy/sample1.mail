@@ -1,0 +1,36 @@
+Return-Path: <foo@user-domain.com>
+Received: from smtp-proxy005.alpha.user-domain.com (smtp-proxy005.alpha.user-domain.com [111.111.111.111])
+	by www3916.sakura.ne.jp (8.15.2/8.15.2) with ESMTPS id 00000000000000
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
+	for <info@your-domain.com>; Sun, 5 Apr 2020 15:41:38 +0900 (JST)
+	(envelope-from foo@user-domain.com)
+Received: from smtp-proxy005.beta.dummy.lan (HELO smtp-proxy001.alpha.user-domain.com) (222.222.222.222)
+  (smtp-auth username m11121531-info, mechanism plain)
+  by smtp-proxy005.alpha.user-domain.com (qpsmtpd/0.82) with ESMTPA; Sun, 05 Apr 2020 15:41:38 +0900
+Received: from 209.85.210.47 (209.85.210.47)
+ by smtp-proxy005.alpha.user-domain.com (DUMMY-Fsecure);
+ Sun, 05 Apr 2020 15:41:37 +0900 (JST)
+X-Virus-Status: clean(DUMMY-Fsecure)
+Received: by mail-ot1-f47.google.com with SMTP id 22so12035268otf.0
+        for <info@your-domain.com>; Sat, 04 Apr 2020 23:41:38 -0700 (PDT)
+X-Gm-Message-State: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	qBlKWNd8rGBJOJwuOW2ehC+PoaMFfC6b9aF3Ujrm/g==
+X-Google-Smtp-Source: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=
+X-Received: by 2002:a05:6830:23bb:: with SMTP id xxxxxxxxxxxxxxxx.999.9999999999999;
+ Sat, 04 Apr 2020 23:41:37 -0700 (PDT)
+MIME-Version: 1.0
+Reply-To: foo@user-domain.com
+From: I AM UR CLIENT <foo@user-domain.com>
+Date: Sun, 5 Apr 2020 15:41:26 +0900
+X-Gmail-Original-Message-ID: <CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=CCCCCCCCC@mail.gmail.com>
+Message-ID: <CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=CCCCCCCCC@mail.gmail.com>
+Subject: =?UTF-8?B?44CQ44OG44K544OI44CRMjAyMC8wNC8wNSAxNTozOQ==?=
+To: info@your-domain.com
+Cc: foo@friend-domain.jp, hoge <bar@other-domain.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MIME-Autoconverted: from base64 to 8bit by www9999.sakura.ne.jp id 0356fcG9036591
+
+自動返信の動作確認用メールです。このメールは無視してください。(Sample template #1)
+
+From KEINOS.

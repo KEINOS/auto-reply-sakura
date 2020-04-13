@@ -1,0 +1,15 @@
+{
+    "mail_title_to_reply": "お問い合わせありがとうございます。",
+    "from": {
+        "name": "My Sample Name",
+        "email": "from_me@sample.com"
+    },
+    "bcc": [
+        {
+            "email": "bcc1@sample.com"
+        },
+        {
+            "email": "bcc2@sample.com"
+        }
+    ]
+}

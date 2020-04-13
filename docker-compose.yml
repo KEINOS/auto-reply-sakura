@@ -1,0 +1,20 @@
+# This docker-compose file is to run unit tests on Docker.
+version: "3.7"
+
+services:
+  smtp:
+    image: schickling/mailcatcher
+  test:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: auto_reply_sakura/unit_test:latest
+    volumes:
+      - ./config/php.ini-sakura-develop:/usr/local/etc/php/php.ini
+      - ./auto-reply.php:/app/auto-reply.php
+      - ./composer.json:/app/composer.json
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./template:/app/template
+      - ./tests:/app/tests
+    entrypoint: /bin/sh /entrypoint.sh

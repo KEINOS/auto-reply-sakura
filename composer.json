@@ -1,0 +1,66 @@
+{
+    "name": "keinos/auto-reply-sakura",
+    "description": "Automatically reply mail when it's holly day in Sakura-Internet server.",
+    "homepage": "https://github.com/KEINOS/auto-reply-sakura",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "KEINOS",
+            "email": "github@keinos.com",
+            "homepage": "https://github.com/KEINOS/",
+            "role": "Maintainer"
+        },
+        {
+            "name": "contributors",
+            "homepage": "https://github.com/KEINOS/auto-reply-sakura/graphs/contributors",
+            "role": "Contributors"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/KEINOS/Dockerfile_of_Alpine/issues",
+        "source": "https://github.com/KEINOS/auto-reply-sakura"
+    },
+    "require": {
+        "zbateson/mail-mime-parser": "^1.2",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7",
+        "diablomedia/phpunit-pretty-printer": "^1.0",
+        "symfony/console": "^3.4",
+        "phpunit/php-invoker": "^1.1"
+    },
+    "autoload": {
+        "files": [
+            "./src/constants.php",
+            "./src/functions.php",
+            "./src/classes.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KEINOS\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "docker-dev": [
+            "docker-compose up -d smtp",
+            "Composer\\Config::disableProcessTimeout",
+            "docker-compose run --rm test < /dev/tty; docker-compose down --remove-orphans"
+        ],
+        "docker-build": [
+            "docker-compose build --no-cache && docker container prune -f && docker image prune -f"
+        ],
+        "test": [
+            "./vendor/bin/phpunit --verbose --printer 'DiabloMedia\\PHPUnit\\Printer\\PrettyPrinter' --configuration ./config/phpunit.xml; [ $? -eq 0 ] && echo 'All tests passed.';"
+        ],
+        "test-debug": [
+            "./vendor/bin/phpunit --debug --verbose --printer 'DiabloMedia\\PHPUnit\\Printer\\PrettyPrinter' --configuration ./config/phpunit.xml; [ $? -eq 0 ] && echo 'All tests passed.';"
+        ],
+        "test-run": [
+            "echo 'Running script in debug mode with time stamp:1586703600'",
+            "IS_MODE_DEBUG=true TIME_CURRENT=1586703600 php ./auto-reply.php && echo 'SUCCESS' || echo 'FAIL'"
+        ]
+    }
+}
