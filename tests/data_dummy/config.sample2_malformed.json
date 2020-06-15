@@ -1,7 +1,12 @@
 {
     "weekday_to_reply": [
-        "Monday",
-        "Tuesday"
+        {
+            "Weekday": "Monday",
+            "Begin": "18:00"
+        },
+        {
+            "Weekday": "Tuesday"
+        }
     ],
     "mail_title_to_reply": "お問い合わせありがとうございます。",
     "from": {
