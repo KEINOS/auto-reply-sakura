@@ -1,11 +1,49 @@
 # Test Files
 
-Files in this directory are the tests to be used in PHPUnit.
+This directory contains unit test files of PHPUnit.
+
+## How To Run The Tests
+
+These tests were designed on the assumption that below apps/commands were installed locally.
+
+- Docker
+- docker-compose
+- PHP (No PHP version asked)
+- Composer
+
+Due to the need of SMTP server to check if the replied email was sent properly, Docker and docker-compose were used.
+
+```shellsession
+$ # Build both SMTP and PHP5 containers
+$ docker-compose build
+...
+$
+$ # Launch SMTP container then PHP5 container and connects the tty to the PHP5 container.
+$ composer docker-dev
+...
+/app # # Check PHP version of the container
+/app # php -v
+PHP 5.6.40 (cli) (built: Jan 31 2019 01:25:07)
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+/app #
+/app # # Run tests inside the PHP5 container
+/app # composer test
+...
+All tests passed.
+/app #
+/app # # Exit from PHP5 container and shuts down both SMTP and PHP5 container
+/app # exit
+...
+$
+```
+
+## How To Write Tests
 
 - Each functions and class methods must have at least one test case in "../tests/".
 - Making a test case first before implementing a function or method is preferred.
 
-## Template of the test
+### Template of the test
 
 ```php
 <?php
@@ -28,30 +66,9 @@ final class SayHelloTest extends TestCase
 ```
 
 1. File name must be "<functionName>Test.php" or "<methodName>Test.php" format. (lowerCamel case and ending with "Test")
-2. Use and extend "\KEINOS\Tests\TestCase" class with the name "<FunctionName>Test" or "<MethodName>Test". (UpperCamel case and ending with "Test")
-3. Test method's name must describe what to test. Beginning with "test". e.g.: `testIssue123()` `testGiveUnescapedData()`
+2. Test class must be extended from "\KEINOS\Tests\TestCase" class with the name "<FunctionName>Test" or "<MethodName>Test". (UpperCamel case and ending with "Test")
+3. Test method's name must describe what to test. Beginning with "test" in lowercase. e.g.: `testIssue123()` `testGiveUnescapedData()`
 
 ### List of Assertions
 
 - [Assertions](https://phpunit.readthedocs.io/en/latest/assertions.html) | PHPUnit @ ReadTheDocs.com
-
-## How To Test
-
-### For Non Docker Users
-
-1. You need [PHP Composer](https://getcomposer.org/) installed. Run `composer --version` in your terminal to check if it's installed.
-2. Move to the root of this repo and diagnose composer by: `composer diagnose`
-3. Run the test by: `composer test`
-
-### For Docker Users
-
-If you have Docker installed then you don't need PHP to be installed in your environment.
-
-For easy testing it is required to have docker-compose installed as well.
-
-```bash
-# Run tests over the container "test"
-docker-compose run --rm test composer test
-```
-
-* NOTE: The first run takes time in order to create an image.
