@@ -1,3 +1,5 @@
+[![](https://travis-ci.org/KEINOS/auto-reply-sakura.svg?branch=master)](https://travis-ci.org/KEINOS/auto-reply-sakura "Build Status")
+
 # auto-reply-sakura
 
 「さくらインターネット」のメールで、指定された定休日および時間に届いた場合に、定型文を自動返信する PHP スクリプトです。
