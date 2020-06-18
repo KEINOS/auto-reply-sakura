@@ -1,4 +1,5 @@
 [![](https://travis-ci.org/KEINOS/auto-reply-sakura.svg?branch=master)](https://travis-ci.org/KEINOS/auto-reply-sakura "Build Status")
+[![](https://img.shields.io/badge/PHP-5.6.xx-blue)](https://github.com/KEINOS/auto-reply-sakura/blob/master/docker/Dockerfile#L3  "Supported PHP Version")
 
 # auto-reply-sakura
 
