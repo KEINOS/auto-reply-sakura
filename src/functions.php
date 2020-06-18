@@ -20,9 +20,7 @@ function getBodyReply($name_file_reply)
 {
     $path_file_reply = PATH_DIR_TEMPLATE . DIR_SEP . $name_file_reply;
     if (! \file_exists($path_file_reply)) {
-        //$msg_error="Reply template not found at: ${path_file_reply} @ Line:" . __LINE__;
-        $dummy = print_r(get_defined_constants(), true);
-        $msg_error="Reply template not found at: ${dummy} @ Line:" . __LINE__;
+        $msg_error="Reply template not found at: ${path_file_reply} @ Line:" . __LINE__;
         throw new \RuntimeException($msg_error);
     }
     $mail_contents = \file_get_contents($path_file_reply);
