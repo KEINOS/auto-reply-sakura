@@ -34,7 +34,8 @@
         "files": [
             "./src/constants.php",
             "./src/functions.php",
-            "./src/classes.php"
+            "./src/classes/ConfigInfo.php",
+            "./src/classes/WeekdayToReply.php"
         ]
     },
     "autoload-dev": {

@@ -9,6 +9,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function exec($command, &$return_var = false)
     {
         try {
+            // Redirect STDERR to STDOUT
+            if(\strpos($command, '2>&1') === false){
+                $command = "${command} 2>&1";
+            }
+
             // Initialize
             $result_array = [];
 
@@ -17,13 +22,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $result = implode(PHP_EOL, $result_array);
 
             if ($return_var !== 0) {
-                throw new \RuntimeException('Exec fail with non zero status. Returned result: ' . PHP_EOL . $result);
+                $msg_error = 'Exec fail with non zero status.' . PHP_EOL
+                           . '  Returned result: ' . PHP_EOL . trim($result) . PHP_EOL;
+                throw new \RuntimeException($msg_error);
             }
             return $result;
         } catch (\RuntimeException $e) {
             // Get error
-            $msg_error = $e->getMessage() . PHP_EOL;
-            throw new \RuntimeException("Failed to execute the sample code in the test. \n  Error Msg: " . trim($msg_error));
+            $msg_error = 'Failed to execute the sample code in the test.' . PHP_EOL
+                       . '  Error Msg: ' . trim($e->getMessage()) . PHP_EOL;
+            throw new \RuntimeException($msg_error);
         }
     }
 

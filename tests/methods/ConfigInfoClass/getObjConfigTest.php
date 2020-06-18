@@ -21,7 +21,7 @@ final class Method_GetObjConfigTest extends TestCase
     //  Tests
     // ========================================================================
 
-    public function testPrivateMethod()
+    public function testPrivateMethodGetObjConfig()
     {
         $name_file_config = 'config.sample1_regular.json';
         $path_file_config = $this->getPathFileConfig($name_file_config);
