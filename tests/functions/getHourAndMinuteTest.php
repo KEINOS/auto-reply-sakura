@@ -3,7 +3,7 @@ namespace KEINOS\Tests;
 
 use \KEINOS\Tests\TestCase;
 
-final class Function_GetWeekdayTest extends TestCase
+final class Function_GetHourAndMinuteTest extends TestCase
 {
     // ========================================================================
     //  Tests
@@ -11,18 +11,20 @@ final class Function_GetWeekdayTest extends TestCase
 
     public function testTimeStampAsInteger()
     {
-        $timestamp = 1586441962;
-        $expect = 'Thursday';
-        $actual = \KEINOS\AutoMailReply\getWeekday($timestamp);
+        $time_stamp = 1602320460;
+
+        $expect = date('H:i', $time_stamp);
+        $actual = \KEINOS\AutoMailReply\getHourAndMinute($time_stamp);
 
         $this->assertSame($expect, $actual);
     }
 
     public function testTimeStampAsString()
     {
-        $timestamp = "1586441962";
-        $expect = 'Thursday';
-        $actual = \KEINOS\AutoMailReply\getWeekday($timestamp);
+        $time_stamp = "1602320460";
+
+        $expect = date('H:i', $time_stamp);
+        $actual = \KEINOS\AutoMailReply\getHourAndMinute($time_stamp);
 
         $this->assertSame($expect, $actual);
     }

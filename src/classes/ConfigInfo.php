@@ -1,6 +1,6 @@
 <?php
 /**
- * Classes.
+ * ConfigInfo Class.
  * ========================================================
  * Note:
  *  This script must be compatible with PHP 5.6.40 and
@@ -10,11 +10,16 @@ namespace KEINOS\AutoMailReply;
 
 class ConfigInfo
 {
-    private $conf_obj;
+    // Property
+    private $conf_obj; // Stores JSON object from the conf file
+    private $list_weekday_name_to_reply = [];
+    private $list_weekday_object = [];
 
     public function __construct($path_file_config)
     {
         $this->conf_obj = $this->getObjConfig($path_file_config);
+
+        // Validates configuration and sets properties
         $this->validateWeekday();
     }
 
@@ -81,57 +86,74 @@ class ConfigInfo
 
     public function getWeekdaysToReply()
     {
+        return $this->list_weekday_name_to_reply;
+    }
+
+    /**
+     * Alias function of is_iterable() in PHP7.
+     *
+     * @param  mixed $obj
+     * @return bool
+     */
+    private function isIterable($obj)
+    {
+        return is_array($obj) || (is_object($obj) && ($obj instanceof \Traversable));
+    }
+
+    public function isWeekdayToReply($time_stamp)
+    {
+        // Weekday check
+        $weekday_needle   = getWeekday($time_stamp);
+        $weekday_haystack = $this->getWeekdaysToReply();
+
+        if (! in_array($weekday_needle, $weekday_haystack)) {
+            return false;
+        }
+
+        // Hour/min check within the weekday.
+        // If needle exists in haystack then should exist in $this->list_weekdays_to_reply
+        // array of objects as well.
+        $format = 'H:i';
+        $time_needle = date($format, $time_stamp);
+        $obj_weekday = $this->list_weekday_object[$weekday_needle];
+
+        return $obj_weekday->isTimeInBetween($time_needle);
+    }
+
+    public function validateWeekday()
+    {
         if (! isset($this->conf_obj->weekday_to_reply)) {
+            return [];
+        }
+
+        if (empty($this->conf_obj->weekday_to_reply)) {
             return [];
         }
 
         $weekdays = $this->conf_obj->weekday_to_reply;
 
-        if (\is_array($weekdays)) {
-            return $weekdays;
-        }
         if (\is_string($weekdays)) {
-            $array = \explode(',', $weekdays);
-            return array_map('trim', $array);
+            throw new \RuntimeException('Invalid format. "weekday_to_reply" elements must be in array. String given.');
         }
 
-        throw new \RuntimeException('"weekday_to_reply" element must be array or comma separated string.');
-    }
+        if (! $this->isIterable($weekdays)) {
+            throw new \RuntimeException('Invalid format. "weekday_to_reply" elements must be in JSON array.');
+        }
 
-    public function isValidWeekday($weekday_needle)
-    {
-        $weekday_haystack = [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-        ];
-
-        return in_array($weekday_needle, $weekday_haystack);
-    }
-
-    public function isWeekdayToReply($time_stamp)
-    {
-        $weekday_needle   = getWeekday($time_stamp);
-        $weekday_haystack = $this->getWeekdaysToReply();
-
-        return in_array($weekday_needle, $weekday_haystack);
-    }
-
-    public function validateWeekday()
-    {
-        $weekdays = $this->getWeekdaysToReply();
-
-        foreach ($weekdays as $weekday) {
-            if ($this->isValidWeekday($weekday) === false) {
-                $msg_error="Mal-format conf file. Weekday description is not valid: ${weekday}";
-                throw new \RuntimeException($msg_error);
+        foreach ($weekdays as $value) {
+            if (! isset($value->weekday)) {
+                throw new \RuntimeException('Invalid format. "Weekday" key is missing.');
             }
-        }
 
-        return true;
+            $weekday    = $value->weekday;
+            $time_begin = isset($value->begin) ? $value->begin : '';
+            $time_end   = isset($value->end)   ? $value->end   : '';
+
+            $obj_weekday = new \KEINOS\AutoMailReply\WeekdayToReply($weekday, $time_begin, $time_end);
+
+            // Set objects to internal array and return array.
+            $this->list_weekday_name_to_reply[]  = $weekday;
+            $this->list_weekday_object[$weekday] = $obj_weekday;
+        }
     }
 }

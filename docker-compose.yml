@@ -7,6 +7,7 @@ services:
   test:
     build:
       context: .
+      network: host
       dockerfile: ./docker/Dockerfile
     image: auto_reply_sakura/unit_test:latest
     volumes:
@@ -18,4 +19,5 @@ services:
       - ./config:/app/config
       - ./template:/app/template
       - ./tests:/app/tests
+      - ./samples:/app/samples
     entrypoint: /bin/sh /entrypoint.sh

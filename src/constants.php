@@ -11,7 +11,7 @@
  */
 namespace KEINOS\AutoMailReply;
 
-defined('IS_MODE_DEBUG')   or define('IS_MODE_DEBUG', isset($_ENV["IS_MODE_DEBUG"]) && ! empty($_ENV["IS_MODE_DEBUG"] && ($_ENV["IS_MODE_DEBUG"] === 'true')));
+defined('IS_MODE_DEBUG') or define('IS_MODE_DEBUG', isset($_ENV["IS_MODE_DEBUG"]) && ! empty($_ENV["IS_MODE_DEBUG"] && ($_ENV["IS_MODE_DEBUG"] === 'true')));
 
 if (IS_MODE_DEBUG === true) {
     if (! defined('TIME_CURRENT') && isset($_ENV["TIME_CURRENT"])) {

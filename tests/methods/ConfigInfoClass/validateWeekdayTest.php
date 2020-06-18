@@ -17,20 +17,6 @@ final class Method_ValidateWeekdayTest extends TestCase
         $path_file_config = $path_dir_dummy . DIR_SEP . $name_file_config;
 
         $obj = new \KEINOS\AutoMailReply\ConfigInfo($path_file_config);
-
-        $valid_weekdays = [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-        ];
-        foreach($valid_weekdays as $weekday){
-            $result = $obj->validateWeekday($weekday);
-            $this->assertTrue($result, "\"${weekday}\" is not a valid weekday.");
-        }
     }
 
     public function testIrregularUsage()

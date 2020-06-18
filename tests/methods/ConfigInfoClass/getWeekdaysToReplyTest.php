@@ -28,9 +28,10 @@ final class Method_GetWeekdaysToReplyTest extends TestCase
 
     public function testIfWeekdayIsMissing()
     {
-        // Sample config file path
+        // Sample config file with no weekday set
         $name_file_config = 'config.sample3_no_weekday.json';
         $path_dir_dummy   = $this->getPathDirDataDummy();
+        // Sample config file path
         $path_file_config = $path_dir_dummy . DIR_SEP . $name_file_config;
 
         $obj = new \KEINOS\AutoMailReply\ConfigInfo($path_file_config);
@@ -47,13 +48,7 @@ final class Method_GetWeekdaysToReplyTest extends TestCase
         $path_dir_dummy   = $this->getPathDirDataDummy();
         $path_file_config = $path_dir_dummy . DIR_SEP . $name_file_config;
 
+        $this->expectException(\RuntimeException::class);
         $obj = new \KEINOS\AutoMailReply\ConfigInfo($path_file_config);
-
-        $result_actual = $obj->getWeekdaysToReply();
-        $result_expect = [
-            'Sunday',
-            'Monday',
-        ];
-        $this->assertSame($result_actual, $result_expect, 'Did not return the same value from config file.');
     }
 }

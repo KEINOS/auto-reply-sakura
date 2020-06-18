@@ -1,36 +1,25 @@
 <?php
+
+/**
+ * ----------------------------------------------------------------------------
+ * Test for "working day" (Do NOT reply automatically)
+ *
+ * This script tests the functionability of operating day which should NOT
+ * reply the automated email.
+ * ----------------------------------------------------------------------------
+ */
+
 namespace KEINOS\Tests;
 
 use \KEINOS\Tests\TestCase;
 
-/**
- * Main_GiveRegularDataTest.
- * ----------------------------------------------------------------------------
- * About this test:
- *   This test does the following:
- *     1. As a client's move, the "setUp()" method sends an email to the dummy
- *        SMTP server. Then it fetches back from the dummy SMTP's API.
- *     2. In the test method(s), it pipes the fetched raw email to the main
- *        script.
- *     3. The main script should send back (reply) to the email address of the
- *        client/user at the step #1.
- *     4. Finally it checks if the replied email was sent to the right address
- *        and right content by fetching the sent email from the dummy SMTP
- *        server.
- *   Note:
- *     Also note that this test assumes the dummy SMTP server be "mailcatcher"
- *     and is up in the same network and accessible to it's API as
- *     "http://smtp:1080/". Therefore it is recommended to use Docker and
- *     docker-compose to run the tests.
- * ----------------------------------------------------------------------------
- */
-final class Main_GiveRegularDataTest extends TestCase
+final class Main_WorkingDayTest extends TestCase
 {
     // ========================================================================
     //  Properties
     // ========================================================================
 
-     // Email address of a user/client who inquired and will receive the reply
+    // Email address of a user/client who inquired and will receive the reply
     // email.
     public $email_user = 'i_am_your_user@sample.com';
     // Email address of a person in charge. Who receives the mail from the user
@@ -58,41 +47,25 @@ final class Main_GiveRegularDataTest extends TestCase
         $path_script_main = $path_dir_root . DIR_SEP . $name_script_main;
 
         if (! \file_exists($path_script_main)) {
-            throw new \RuntimeException('File not found. Main script is missing at: ' . $path_script_main);
+            $msg = 'File not found. Main script is missing at: ' . $path_script_main;
+            throw new \RuntimeException($msg);
         }
 
-        // Set time stamp to the date reply
-        $time_stamp = 1586703600; // 2020/04/13 → Monday
+        // Set time stamp to the date received
+        $time_stamp = \strtotime('2020/04/13 10:30'); // Monday before 18:00
+
         // Add slash to escape to include in command
         $user_mail_raw = \addslashes($user_mail_raw);
+
         // Create command
-        $command = "/bin/echo '${user_mail_raw}' | IS_MODE_DEBUG=true TIME_CURRENT=${time_stamp} /usr/local/bin/php ${path_script_main}";
+        $cmd_echo_mail_raw = "/bin/echo '${user_mail_raw}'";
+        $cmd_run_script = "IS_MODE_DEBUG=true TIME_CURRENT=${time_stamp} /usr/local/bin/php ${path_script_main}";
+        $command = "${cmd_echo_mail_raw} | ${cmd_run_script}";
+
         // Run command externally
         $result_status = false;
-        $result = $this->exec($command, $result_status);
-        // In debug mode, the script returns the trace ID which was attached to the subject in the sent mail.
-        $id_trace = \trim($result);
-        $len_id   = \strlen(hash('md5', 'sample')); // Length of the ID to trace (MD5)
-
-        if (! \ctype_xdigit($id_trace) || \strlen($id_trace) !== $len_id) {
-            throw new \RuntimeException("Did not return the trace ID. Returned msg:\n" . $result);
-        }
-        // Get body actual
-        $source      = $this->getMailSourceFromSubjectId($id_trace);
-        $body_actual = trim($this->getMailTextBodyFromMailSource($source));
-        $body_actual = \KEINOS\AutoMailReply\uniformEOL($body_actual);
-
-        // Get body expect
-        $path_dir_template  = $this->getPathDirTemplate();
-        $name_file_template = 'reply_body.utf8.txt.sample'; // Template body when the debug mode is true
-        $path_file_template = $path_dir_template . DIR_SEP . $name_file_template;
-        $body_expect = \file_get_contents($path_file_template);
-        $body_expect = \KEINOS\AutoMailReply\uniformEOL($body_expect);
-        $body_expect = trim($body_expect . "(DEBUG ID: ${id_trace})");
-
-        $this->assertSame($body_actual, $body_expect, "Reply body does not match to the one sent.\n---\n${body_actual}\n---\n${body_expect}\n---");
-        // Check dummy SMTP server if the reply was sent
-        //$this->assertTrue(($result_status === 0), 'Failed to execute command.');
+        $this->expectException(\RuntimeException::class);
+        $result_msg = $this->exec($command, $result_status);
     }
 
     // ========================================================================

@@ -2,35 +2,36 @@
 <?php
 /**
  * Main Script.
- * ========================================================
+ * ============================================================================
  * Note:
- *  This script must be compatible with PHP 5.6.40 and
- *  later.
- *  To activate debug mode, which displays errors, set the
- *  env variable "IS_MODE_DEBUG=true" before running the
- *  script.
- *  e.g.: $ IS_MODE_DEBUG=true php /path/to/auto-reply.php
+ *  - This script must be compatible with PHP 5.6.40 and later.
+ *  - To activate debug mode, which displays errors, set the env variable
+ *    "IS_MODE_DEBUG=true" before running the script.
+ *      - e.g.: $ IS_MODE_DEBUG=true php /path/to/auto-reply.php
+ *  - On production this script SHOULD exit with a status 0 (zero) and
+ *    any error/exception should be caught and logged.
  */
 namespace KEINOS\AutoMailReply;
 
-// Enable this only if needed. Use env value instead.
+// Disable this only if needed. To control debug mode, use
+// 'IS_MODE_DEBUG' env value instead.
 if (true) {
     \error_reporting(E_ALL);
     \ini_set("display_errors", 1);
 }
 
-// Include packages
-require_once(__DIR__ . '/vendor/autoload.php');
-
-// Ensure internal language as JA-JP UTF-8
-\mb_language("Japanese");
-\mb_internal_encoding("UTF-8");
-// Change working directory
-\chdir(__DIR__);
-// Log for debugging
-$log_array = [];
-
 try {
+    // Include packages
+    require_once(__DIR__ . '/vendor/autoload.php');
+
+    // Ensure internal language as JA-JP UTF-8
+    \mb_language("Japanese");
+    \mb_internal_encoding("UTF-8");
+    // Change working directory
+    \chdir(__DIR__);
+    // Log for debugging
+    $log_array = [];
+
     $id_trace = \hash('md5', \microtime() . __FILE__);
 
     if (isModeDebug()) {
@@ -43,13 +44,21 @@ try {
 
     // Read conf file
     $conf = new ConfigInfo(PATH_FILE_CONF);
+
     // Skip/do nothing if not holly day
     if (! $conf->isWeekdayToReply(TIME_CURRENT)) {
         if (isModeDebug()) {
-            $log_array[] = 'Did NOT reply: Date is a working day. See the configuration file.';
+            $msg_error = 'Did NOT reply: Date is a working day. See the configuration file.';
+            $log_array[] = $msg_error;
+            echo $msg_error, PHP_EOL;
+            // On debug mode exit as fail(1) to let the test catch
+            exit(FAILURE);
         }
+        // On production the script should exit as success(0).
+        // Otherwise the mailer won't proceed their part.
         exit(SUCCESS);
     }
+
     // Get mail title/subject to reply
     $subject = $conf->getSubject();
     if (isModeDebug()) {
@@ -84,9 +93,10 @@ try {
         $log_array[] = $msg_error;
         throw new \RuntimeException($msg_error);
     }
-    if(isModeDebug()){
+    if (isModeDebug()) {
         echo $id_trace . PHP_EOL;
     }
+
     exit(SUCCESS);
 } catch (\RuntimeException $e) {
     // Get error

@@ -75,6 +75,22 @@ function getCurrentTime()
     return TIME_CURRENT;
 }
 
+function getHourAndMinute($time_stamp)
+{
+    if (! \is_numeric($time_stamp)) {
+        return false;
+    }
+    // Format: https://www.php.net/manual/ja/function.date.php
+    $format = 'H:i';
+    $hour_and_min = date($format, $time_stamp);
+    if ($hour_and_min === false) {
+        $msg_error="Malformed time stamp given. Timestamp: ${time_stamp}, Line:" . __LINE__;
+        throw new \RuntimeException($msg_error);
+    }
+
+    return $hour_and_min;
+}
+
 function getMailAddressToReply($mail_received)
 {
     $mailParser = new \ZBateson\MailMimeParser\MailMimeParser();
@@ -106,15 +122,22 @@ function getMailDummy($name_file_mail = null)
 function getWeekday($time_stamp)
 {
     if (! \is_numeric($time_stamp)) {
-        return false;
+        $msg_error = 'Malformed time stamp given.' . PHP_EOL
+                   . '  Timestamp: ' . $time_stamp . PHP_EOL
+                   . '  Line: ' . __LINE__;
+        throw new \RuntimeException($msg_error);
     }
+
     // Format: https://www.php.net/manual/ja/function.date.php
     $format  = 'l';
     $weekday = date($format, $time_stamp);
     if ($weekday === false) {
-        $msg_error="Malformed time stamp given. Timestamp: ${time_stamp}, Line:" . __LINE__;
+        $msg_error = 'Malformed time stamp given.' . PHP_EOL
+                   . '  Timestamp: ' . $time_stamp . PHP_EOL
+                   . '  Line: ' . __LINE__;
         throw new \RuntimeException($msg_error);
     }
+
     return $weekday;
 }
 
