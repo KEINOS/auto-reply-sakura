@@ -45,8 +45,8 @@ defined('NAME_DIR_TEST')        or define('NAME_DIR_TEST', 'tests');
 // Set current time (Avoid time diff when delay)
 defined('TIME_CURRENT') or define('TIME_CURRENT', time());
 
-// Constants that are basically should not changed
-defined('PATH_DIR_SCRIPT') or define('PATH_DIR_SCRIPT', dirname(__DIR__)); // Root path of the repo
+// Constants that are basically should not changed (Root path of the repo)
+defined('PATH_DIR_SCRIPT') or define('PATH_DIR_SCRIPT', dirname(__DIR__));
 
 // Constants (Do not change)
 const DIR_SEP = DIRECTORY_SEPARATOR;
